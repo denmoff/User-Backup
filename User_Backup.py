@@ -5,7 +5,7 @@
 # Created by Dennis Moffett
 # May, 4 2015
 # Rutgers University
-# Version 1.0.0
+# Version 1.0.1
 # Purpose: To backup user data from Mac to network share
 ######################################################################
 
