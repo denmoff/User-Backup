@@ -22,7 +22,7 @@ backup_dir = os.path.join(dest_path, comp_name)
 last_run_file = os.path.join(dest_path, "." + comp_name)
 run_interval = 90 #minutes
 #log_path = os.path.join(source_path,'Library', 'Logs','User_Backup.log')
-log_path = os.path.join('/Users','Shared','User_Backup.log')
+log_path = os.path.join('/Users','Shared','.User_Backup.log')
 
 
 ### If rsyc3 exsists, use it. Otherwise, use system rsync.
