@@ -9,7 +9,7 @@
 # Purpose: To backup user data from Mac to network share
 ######################################################################
 
-import subprocess, os, sys, getpass, time, commands
+import subprocess, os, sys, getpass, time, commands, logging
 from subprocess import Popen, PIPE, call
 
 user_name = getpass.getuser()
@@ -21,6 +21,9 @@ dest_path = os.path.join('/Volumes', user_name,'Backups')
 backup_dir = os.path.join(dest_path, comp_name)
 last_run_file = os.path.join(dest_path, "." + comp_name)
 run_interval = 90 #minutes
+#log_path = os.path.join(source_path,'Library', 'Logs','User_Backup.log')
+log_path = os.path.join('/Users','Shared','User_Backup.log')
+
 
 ### If rsyc3 exsists, use it. Otherwise, use system rsync.
 if os.path.isfile('/usr/local/bin/rsync3'):
@@ -33,6 +36,11 @@ inclusions = ["Library/Mail/"]
 exclusions = [".ssh",".Trash", ".cache", "Dropbox", "Downloads",\
  "Library", "Movies", "Music", "Pictures", "Documents/Microsoft User Data"]
 filter_file = '/Users/Shared/.filter'
+
+
+
+logging.basicConfig(filename=log_path,filemode='w',format='%(asctime)s:%(message)s',level=logging.DEBUG)
+logging.debug(user_name)
 
 def main():
     # x_string = create_exclude_string(exclusion_list)
@@ -98,8 +106,9 @@ def rsync_command(src,dst):
     else:
         rsync_args.insert(2, '--filter=merge %s' % filter_file)
     
-    call(rsync_args, shell=False)
-
+    rp = Popen(rsync_args,stdout=PIPE,stderr=PIPE,shell=False)
+    rsync_stdout,rsync_stderr = rp.communicate()
+    logging.debug(rsync_stdout)
     print "Rsync Complete."
     os.utime(last_run_file,None)
 
