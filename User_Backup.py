@@ -97,7 +97,7 @@ def flight_check():
         return False    
 
 def rsync_command(src,dst):
-    rsync_args = [rsync,"-azv", "--dry-run", "--delete", "--force", src, dst]
+    rsync_args = [rsync,"-az", "--delete", "--force", src, dst]
     if not os.path.isfile(filter_file):# If there is no .filter file, use include/exclude lists (defined at top). Otherwise, use .filter file.
         for x in exclusions:
             rsync_args.insert(2, '--exclude=%s' % x)
